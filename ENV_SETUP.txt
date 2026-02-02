@@ -1,0 +1,22 @@
+# Environment Variables Setup for Email Functionality
+
+Create a .env file in the Backend directory with the following variables:
+
+PORT=5000
+NODE_ENV=development
+
+# SMTP Email Configuration (Gmail/Google Workspace)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your-email@gmail.com
+SMTP_PASSWORD=your-app-password
+
+# Contact Email (where form submissions will be sent)
+CONTACT_EMAIL=info@gnssoftware.in
+
+# Instructions:
+# 1. Replace 'your-email@gmail.com' with your actual Gmail address
+# 2. Generate an App Password from Google Account settings (see README_EMAIL_SETUP.md)
+# 3. Replace 'your-app-password' with the 16-character app password
+# 4. Make sure CONTACT_EMAIL is set to info@gnssoftware.in
