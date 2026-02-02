@@ -38,7 +38,7 @@ If you see "Failed to send email", it means the SMTP configuration is not set up
 2. Start it again:
    ```bash
    cd Backend
-   npm run dev
+   uvicorn app.main:app --reload --port 5000
    ```
 
 ### Step 4: Test

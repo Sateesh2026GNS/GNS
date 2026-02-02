@@ -42,7 +42,7 @@ This error means Gmail is rejecting your credentials. Here are the most common c
 
 **Solution:**
 - Stop the server (Ctrl+C)
-- Restart: `npm run dev`
+- Restart: `uvicorn app.main:app --reload --port 5000`
 - The server loads `.env` only when it starts
 
 ### 6. Google Workspace Account Issues

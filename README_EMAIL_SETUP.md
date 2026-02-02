@@ -13,10 +13,10 @@ Navigate to the Backend directory and install the required packages:
 
 ```bash
 cd Backend
-npm install
+pip install -r requirements.txt
 ```
 
-This will install `nodemailer` which is used for sending emails via SMTP.
+The Python backend includes the required SMTP/email utilities (no additional `nodemailer` dependency).
 
 ## Step 2: Generate App Password
 
@@ -74,7 +74,7 @@ CONTACT_EMAIL=info@gnssoftware.in
 
 ```bash
 cd Backend
-npm run dev
+uvicorn app.main:app --reload --port 5000
 ```
 
 2. The server should start on `http://localhost:5000`

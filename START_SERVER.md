@@ -9,7 +9,7 @@
 
 2. **Install dependencies (if not already done):**
    ```bash
-   npm install
+   pip install -r requirements.txt
    ```
 
 3. **Create a `.env` file** (if not already created) with your SMTP configuration:
@@ -26,13 +26,10 @@
 
 4. **Start the server:**
    ```bash
-   npm run dev
+   uvicorn app.main:app --reload --port 5000
    ```
 
-   Or for production:
-   ```bash
-   npm start
-   ```
+   Or for production, use a process manager or your host's recommended approach (systemd, Docker, etc.)
 
 5. **Verify the server is running:**
    - You should see: `🚀 Server is running on http://localhost:5000`
@@ -47,10 +44,10 @@ If you get an error that port 5000 is already in use:
 - Update the frontend API URL accordingly
 
 ### Missing dependencies
-If you see "Cannot find module" errors:
+If you see dependency errors:
 ```bash
 cd Backend
-npm install
+pip install -r requirements.txt
 ```
 
 ### SMTP Configuration Errors
