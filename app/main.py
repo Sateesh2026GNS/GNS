@@ -15,10 +15,13 @@ FRONTEND_DIR = Path("frontend/dist")
 INDEX_FILE = FRONTEND_DIR / "index.html"
 
 if FRONTEND_DIR.is_dir():
-    # Static assets served from /static/*
-    app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
+    # Serve the SPA (index + assets) from the repo root so absolute asset paths like
+    # /assets/... resolve correctly. API routes are included above and will take
+    # precedence over these static routes.
+    app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
 
 
+# Optional: keep an explicit API root handler if the SPA is not present
 @app.get("/")
 async def root():
     # Serve the SPA index if available, otherwise show a simple API root
@@ -27,13 +30,15 @@ async def root():
     return {"message": "Welcome to LogicPuse API (FastAPI)", "version": "1.0.0"}
 
 
+# SPA fallback is no longer needed if StaticFiles(html=True) is mounted at '/',
+# but keep a defensive fallback for non-API routes.
 @app.get("/{full_path:path}")
 async def spa_fallback(full_path: str, request: Request):
     # Do not intercept API routes
     if full_path.startswith("api"):
         return JSONResponse({"detail": "Not Found"}, status_code=404)
 
-    # Serve index.html for SPA routes
+    # If SPA index exists, serve it for client-side routing
     if INDEX_FILE.exists():
         return FileResponse(INDEX_FILE)
 
