@@ -1,27 +1,20 @@
-# --- STAGE 1: Build the React Frontend ---
-FROM node:20-slim AS build-stage
-WORKDIR /frontend
-# Copy only package files first for better caching
-COPY Frontend/package*.json ./
-RUN npm install
-# Copy the rest of the frontend code and build it
-COPY Frontend/ .
-RUN npm run build
-
-# --- STAGE 2: Run the FastAPI Backend ---
+# Python-only Dockerfile for FastAPI backend
+# NOTE: Frontend static assets should be built in CI and placed at Backend/frontend/dist
 FROM python:3.11-slim
+
 WORKDIR /app
+
+# Install OS packages required for building any python wheels (if needed)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends build-essential ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend code
+# Copy backend code (including prebuilt frontend assets in frontend/dist if present)
 COPY . .
-
-# Copy the built React files from the first stage
-# (Adjust 'frontend/dist' to 'frontend/build' depending on if you use Vite or Create React App)
-COPY --from=build-stage /frontend/dist /app/frontend/dist
 
 ENV PORT=8080
 EXPOSE 8080
