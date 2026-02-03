@@ -16,6 +16,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy backend code (including prebuilt frontend assets in frontend/dist if present)
 COPY . .
 
+# Normalize frontend build output: if CI placed the SPA in `frontend/build`,
+# rename it to `frontend/dist` so FastAPI's static route finds it consistently.
+RUN if [ -d "frontend/build" ] && [ ! -d "frontend/dist" ]; then mv frontend/build frontend/dist; fi
+
+# Warn at build time if no frontend build artifacts are present
+RUN if [ ! -d "frontend/dist" ]; then echo "WARNING: frontend/dist not found - backend will serve API only"; fi
+
 ENV PORT=8080
 EXPOSE 8080
 
