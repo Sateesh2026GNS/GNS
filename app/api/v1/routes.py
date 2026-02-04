@@ -11,7 +11,8 @@ async def api_root():
         "message": "LogicPuse API v1",
         "endpoints": {
             "health": "/api/v1/health",
-            "info": "/api/v1/info"
+            "info": "/api/v1/info",
+            "contact": "/api/contact"
         }
     }
 
