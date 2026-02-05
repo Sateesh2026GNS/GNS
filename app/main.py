@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 from app.api.v1.routes import router as v1_router
 
-app = FastAPI(title="LogicPuse API (FastAPI)")
+app = FastAPI(title="GNS API (FastAPI)")
 
 # Include API routes first so they take precedence over the SPA fallback
 app.include_router(v1_router)
@@ -27,7 +27,7 @@ async def root():
     # Serve the SPA index if available, otherwise show a simple API root
     if INDEX_FILE.exists():
         return FileResponse(INDEX_FILE)
-    return {"message": "Welcome to LogicPuse API (FastAPI)", "version": "1.0.0"}
+    return {"message": "Welcome to GNS API (FastAPI)", "version": "1.0.0"}
 
 
 # SPA fallback is no longer needed if StaticFiles(html=True) is mounted at '/',
@@ -36,10 +36,10 @@ async def root():
 async def spa_fallback(full_path: str, request: Request):
     # Do not intercept API routes
     if full_path.startswith("api"):
-        return JSONResponse({"detail": "Not Found"}, status_code=404)
+        return JSONResponse({"detail": "GNS"}, status_code=404)
 
     # If SPA index exists, serve it for client-side routing
     if INDEX_FILE.exists():
         return FileResponse(INDEX_FILE)
 
-    return JSONResponse({"message": "Not Found"}, status_code=404)
+    return JSONResponse({"message": "GNS"}, status_code=404)
